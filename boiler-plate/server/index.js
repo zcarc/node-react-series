@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const port = 3000;
+const port = 3010;
 
 const config = require("./config/key");
 
@@ -28,6 +28,10 @@ mongoose
 
 app.get("/", (req, res) => {
   res.send("Hello World! 안녕하세요!");
+});
+
+app.get("/api/hello", (req, res) => {
+  res.send("안녕하세요~");
 });
 
 app.post("/api/users/register", (req, res) => {
