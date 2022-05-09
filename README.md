@@ -16,8 +16,8 @@ RandigPage.js 컴포넌트에서 useEffect() Hook을 사용해서 요청에 대�
 
 ---
 
-
 ### [React 18 Strict Mode](https://reactjs.org/docs/strict-mode.html#ensuring-reusable-state)에서 새로 도입된 기능으로 useEffect가 두 번 호출되는 것입니다.
+
 아래의 설명은 React 18의 useEffect에서 발생하는 두 번 호출되는 문제가 아닙니다.
 
 ---
@@ -86,3 +86,119 @@ reportWebVitals();
 
 StrictMode를 비활성화하려고 한다면 App을 감싸고 있는 React.StrictMode를 제거 또는 주석처리를 해야합니다. <br />
 이 문제는 작성한 코드의 의도와는 다르게 두 번 호출 되어 찾아보고 이해하는 과정에서 시간 소요가 생각보다 길어졌던 문제였습니다.
+
+### React Router의 Props를 받아오지 못하는 문제
+
+LoginPage 컴포넌트에서 로그인에 성공한 후에 랜딩 페이지로 이동하려고 컴포넌트에서 props를 받아왔으나 아무런 값을 받아오지 못하는 문제가 발생했습니다.
+원인은 현재 React Router 버전은 v6, 강의 버전은 v5로 버전업에 따라 props를 받아오는 방식이 달라졌습니다. <br />
+찾아보니 [React Router v5: The Complete Guide](https://www.sitepoint.com/react-router-complete-guide/)에서 이유를 찾을 수 있었습니다.
+
+![react-router-dom_1](./troubleshooting/boiler-plate/react-router-dom_1.jpeg)
+
+v5의 route props의 전달 방식은 React Router의 Router 컴포넌트를 사용해서 component prop으로 React 컴포넌트를 렌더링할 때,
+암묵적으로 router props: match, location, history를 렌더링 될 컴포넌트의 props로 전달합니다.
+
+하지만 [React router V6: Some of the new changes](https://dev.to/sgarciadev/comment/1jpl0)에서 router props를 v6에서 더 이상 전달할 수 없다고 합니다.
+
+![react-router-dom_2](./troubleshooting/boiler-plate/react-router-dom_2.jpeg)
+
+이 문제는 useNavigate hook을 사용하면 해결할 수 있습니다.
+
+변경 전
+
+```js
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../../_actions/user_actions";
+
+function LoginPage(props) {
+
+  const dispatch = useDispatch();
+
+  const [Email, setEmail] = useState("");
+  const [Password, setPassword] = useState("");
+
+  const onEmailHandler = (event) => {
+    setEmail(event.currentTarget.value);
+  };
+
+  const onPasswordHandler = (event) => {
+    setPassword(event.currentTarget.value);
+  };
+
+  const onSubmitHandler = (event) => {
+    event.preventDefault();
+
+    let body = {
+      email: Email,
+      password: Password,
+    };
+
+    dispatch(loginUser(body)).then((response) => {
+      if (response.payload.loginSuccess) {
+        props.history.push('/') // 변경 전
+      } else {
+        alert("Error");
+      }
+    });
+  };
+
+  ...
+
+}
+
+export default LoginPage;
+```
+
+변경 후
+
+```js
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../../_actions/user_actions";
+
+function LoginPage() {
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
+  const [Email, setEmail] = useState("");
+  const [Password, setPassword] = useState("");
+
+  const onEmailHandler = (event) => {
+    setEmail(event.currentTarget.value);
+  };
+
+  const onPasswordHandler = (event) => {
+    setPassword(event.currentTarget.value);
+  };
+
+  const onSubmitHandler = (event) => {
+    event.preventDefault();
+
+    let body = {
+      email: Email,
+      password: Password,
+    };
+
+  dispatch(loginUser(body)).then((response) => {
+    if (response.payload.loginSuccess) {
+      navigate("/"); // 변경 후
+    } else {
+      alert("Error");
+    }
+  });
+  };
+
+  ...
+
+}
+
+export default LoginPage;
+
+
+
+```
+
+v5에서는 Route 컴포넌트에서 React 컴포넌트를 render할 때, implicit으로 props를 전달했었는데 v6에서는 Hook을 사용하여 explicit으로 props 전달하는 것을 인지할 수 있어서 더 나은 방법이라고 생각되었습니다.
