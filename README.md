@@ -14,6 +14,14 @@ RandigPage.js 컴포넌트에서 useEffect() Hook을 사용해서 요청에 대�
 검색해보니 해당 문제를 야기할 수 있는 원인들 중 현재 상황과 비슷한 내용을 찾을 수 있었습니다. <br />
 원인은 CRA로 프로젝트를 생성하면 StrictMode가 적용되어 두 번 렌더링되는 문제였습니다.
 
+---
+
+
+### [React 18 Strict Mode](https://reactjs.org/docs/strict-mode.html#ensuring-reusable-state)에서 새로 도입된 기능으로 useEffect가 두 번 호출되는 것입니다.
+아래의 설명은 React 18의 useEffect에서 발생하는 두 번 호출되는 문제가 아닙니다.
+
+---
+
 참고한 [Answer](https://stackoverflow.com/a/60619061)에서 설명하는 세 번째 이슈가 원인이라는 것을 알 수 있었습니다.
 
 ![StrictMode1](./troubleshooting/boiler-plate/StrictMode1.png)
