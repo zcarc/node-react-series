@@ -202,3 +202,61 @@ export default LoginPage;
 ```
 
 v5에서는 Route 컴포넌트에서 React 컴포넌트를 render할 때, implicit으로 props를 전달했었는데 v6에서는 Hook을 사용하여 explicit으로 props 전달하는 것을 인지할 수 있어서 더 나은 방법이라고 생각되었습니다.
+
+## Troubleshooting - Movie
+
+무비 앱에서 Load More 버튼으로 영화들을 추가로 가져오는 작업을 하던 중에 에러가 발생했습니다.
+
+![shorthand-properties_1](./troubleshooting/boiler-plate-movie/shorthand-properties_error_1.png)
+
+에러 내용은 "충돌하는 속성이 설정되었을 때, 리렌더를 하는 중 스타일 속성을 바꾸는 과정 중에 스타일을 바꾸는 것에 대한 버그를 일으킬 수 있습니다.
+이를 해결 하기 위해서는, 'shorthand'(기존의 문장 소리, 단어 구를 약어 또는 기호로 대체하여 쓰는 방법) 및 'non-shorthand'를 혼합하지 않아야 합니다.
+대신에 분리된 값들로 바꾸면 됩니다."
+
+MDN web docs의 [Shorthand properties](https://developer.mozilla.org/en-US/docs/Web/CSS/Shorthand_properties)에서 문제를 해결할 수 있는 방법을 찾을 수 있었습니다.
+
+![shorthand-properties_2](./troubleshooting/boiler-plate-movie/shorthand-properties_error_2.png)
+
+공식문서의 내용처럼, shorthand properties로 작성하는 방법 대신 longhand properties로 대신하여 시도를 해보았습니다.
+
+다음은 에러가 발생한 코드입니다.
+
+```js
+// components/views/LandingPage/Sections/MainImage.js
+<div
+  style={{
+    position: "relative",
+    width: "100%",
+    height: "500px",
+    background: `linear-gradient(to bottom, rgba(0,0,0,0) 39%, 
+    rgba(0,0,0,0) 41%, rgba(0,0,0,0.65) 100%),
+    url('${props.image}')`,
+    backgroundSize: "100%, cover",
+    backgroundPosition: "center, center",
+  }}
+>
+  ...
+</div>
+```
+
+이 코드를 다음과 같이 수정하여 에러를 해결할 수 있었습니다.
+
+```js
+// components/views/LandingPage/Sections/MainImage.js
+<div
+  style={{
+    position: "relative",
+    width: "100%",
+    height: "500px",
+    background: `linear-gradient(to bottom, rgba(0,0,0,0) 39%, 
+    rgba(0,0,0,0) 41%, rgba(0,0,0,0.65) 100%)`,
+    backgroundImage: `url("${props.image}")`,
+    backgroundSize: "100%, cover",
+    backgroundPosition: "center, center",
+  }}
+>
+  ...
+</div>
+```
+
+이 에러는 수정하지 않아도 정상적으로 애플리케이션이 동작하지만 그 점을 간과하여 나중에 발생할 수도 있는 잠재적 위험에 대한 대비를 하는 것이 좋을 것이라고 생각되었습니다.
