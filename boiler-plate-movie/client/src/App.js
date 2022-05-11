@@ -5,6 +5,7 @@ import LandingPage from "./components/views/LandingPage/LandingPage";
 import LoginPage from "./components/views/LoginPage/LoginPage";
 import RegisterPage from "./components/views/RegisterPage/RegisterPage";
 import Auth from "./hoc/auth";
+import MovieDetail from "./components/views/MovieDetail/MovieDetail";
 
 function App() {
   // 아무나 진입 가능한 페이지
@@ -29,6 +30,7 @@ function App() {
   const AuthLandingPage = Auth(LandingPage, null);
   const AuthLoginPage = Auth(LoginPage, false);
   const AuthRegisterPage = Auth(RegisterPage, false);
+  const AuthMovieDetail = Auth(MovieDetail, null);
 
   return (
     <Router>
@@ -36,6 +38,7 @@ function App() {
         <Route path="/" element={<AuthLandingPage />}></Route>
         <Route path="/login" element={<AuthLoginPage />}></Route>
         <Route path="/register" element={<AuthRegisterPage />}></Route>
+        <Route path="/movie/:movieId" element={<AuthMovieDetail />}></Route>
       </Routes>
     </Router>
   );
