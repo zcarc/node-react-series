@@ -1,11 +1,11 @@
-import logo from "./logo.svg";
 import "./App.css";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LandingPage from "./components/views/LandingPage/LandingPage";
 import LoginPage from "./components/views/LoginPage/LoginPage";
 import RegisterPage from "./components/views/RegisterPage/RegisterPage";
 import Auth from "./hoc/auth";
 import MovieDetail from "./components/views/MovieDetail/MovieDetail";
+import NavBar from "./components/views/NavBar/NavBar";
 
 function App() {
   // 아무나 진입 가능한 페이지
@@ -33,14 +33,15 @@ function App() {
   const AuthMovieDetail = Auth(MovieDetail, null);
 
   return (
-    <Router>
+    <BrowserRouter>
+      <NavBar />
       <Routes>
         <Route path="/" element={<AuthLandingPage />}></Route>
         <Route path="/login" element={<AuthLoginPage />}></Route>
         <Route path="/register" element={<AuthRegisterPage />}></Route>
         <Route path="/movie/:movieId" element={<AuthMovieDetail />}></Route>
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 }
 
