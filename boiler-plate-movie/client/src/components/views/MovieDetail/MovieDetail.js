@@ -5,6 +5,7 @@ import { API_KEY } from "../../../config/keys";
 import { API_URL, IMAGE_BASE_URL } from "../../Config";
 import GridCards from "../commons/GridCards";
 import MainImage from "../LandingPage/Sections/MainImage";
+import Favorite from "./Sections/Favorite";
 import MovieInfo from "./Sections/MovieInfo";
 
 function MovieDetail() {
@@ -50,6 +51,16 @@ function MovieDetail() {
       )}
       {/* Body */}
       <div style={{ width: "85%", margin: "1rem auto" }}>
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          {Movie && (
+            <Favorite
+              movieInfo={Movie}
+              movieId={movieId}
+              userFrom={localStorage.getItem("userId")}
+            />
+          )}
+        </div>
+
         {/* Movie Info */}
 
         {Movie && <MovieInfo movie={Movie} />}
