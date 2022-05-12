@@ -29,4 +29,27 @@ router.post("/favorited", (req, res) => {
   });
 });
 
+// 영화 좋아요 삭제
+router.post("/removeFromFavorite", (req, res) => {
+  Favorite.findOneAndDelete({
+    movieId: req.body.movieId,
+    userFrom: req.body.userFrom,
+  }).exec((err, doc) => {
+    if (err) return res.status(400).send(err);
+    res.status(200).json({ success: true, doc });
+  });
+});
+
+// 영화 좋아요 추가
+router.post("/addToFavorite", (req, res) => {
+  // 클라이언트에서 보낸 variables는 Favorite의 모델과 변수명이 일치해서 이렇게 생성이 가능하다.
+  const favorite = new Favorite(req.body);
+
+  // 생성한 생성자를 save하면 mongoDB에 저장된다.
+  favorite.save((err, doc) => {
+    if (err) return res.status(400).send(err);
+    return res.status(200).json({ success: true });
+  });
+});
+
 module.exports = router;
