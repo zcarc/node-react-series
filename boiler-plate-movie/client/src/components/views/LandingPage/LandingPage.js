@@ -56,7 +56,9 @@ function LandingPage() {
             Movies.map((movie, index) => {
               return (
                 <React.Fragment key={index}>
+                  {/* 속성에 아무값도 할당하지 않으면 기본값 true */}
                   <GridCards
+                    landingPage
                     image={
                       movie.poster_path
                         ? `${IMAGE_BASE_URL}/w500${movie.poster_path}`
