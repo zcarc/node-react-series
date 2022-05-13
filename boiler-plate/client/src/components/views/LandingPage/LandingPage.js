@@ -33,6 +33,7 @@ function LandingPage() {
       }}
     >
       <h2>시작 페이지</h2>
+      <button onClick={() => navigate("/login")}>로그인</button>
       <button onClick={onClickHandler}>로그아웃</button>
     </div>
   );
