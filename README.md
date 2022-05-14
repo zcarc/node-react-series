@@ -264,7 +264,7 @@ MDN web docs의 [Shorthand properties](https://developer.mozilla.org/en-US/docs/
 
 같은 문제를 [multer create folder if not exist](https://stackoverflow.com/a/59653876)에서 찾을 수 있었고, 해당 답변을 참고하여 문제를 해결할 수 있었습니다.
 
-다음 코드는 폴더명을 콜백함수로 전달하고 있는데 현재 폴더가 존재하지 않아서 에러가 발생합니다.
+다음 코드는 폴더명을 콜백함수로 전달하지만 현재 폴더가 존재하지 않아서 에러가 발생합니다.
 
 ```js
 // boiler-plate-shop/server/routes/product.js
