@@ -2,6 +2,7 @@
 
 - [x] 기본 강의
 - [x] 영화 애플리케이션
+- [ ] 쇼핑몰 애플리케이션
 
 ---
 
@@ -253,3 +254,88 @@ MDN web docs의 [Shorthand properties](https://developer.mozilla.org/en-US/docs/
 ```
 
 이 에러는 수정하지 않아도 정상적으로 애플리케이션이 동작하지만 그 점을 간과하여 나중에 발생할 수도 있는 잠재적 위험에 대한 대비를 하는 것이 좋을 것이라고 생각되었습니다.
+
+## Troubleshooting - Shop
+
+여행 상품 업로드 탭에서 드랍존에 파일을 올릴 때, multer를 사용해서 서버에 파일을 업로드 중에 에러가 발생했습니다. <br />
+문제는 폴더가 존재하지 않을 경우 파일을 업로드 했을 때의 문제였습니다.
+
+![multer-file-upload-error](./troubleshooting/boiler-plate-shop/multer-file-upload-error.png)
+
+같은 문제를 [multer create folder if not exist](https://stackoverflow.com/a/59653876)에서 찾을 수 있었고, 해당 답변을 참고하여 문제를 해결할 수 있었습니다.
+
+다음 코드는 폴더명을 콜백함수로 전달하고 있는데 현재 폴더가 존재하지 않아서 에러가 발생합니다.
+
+```js
+// boiler-plate-shop/server/routes/product.js
+const express = require("express");
+const router = express.Router();
+const multer = require("multer");
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./uploads"); // 폴더가 없을 경우 에러가 발생합니다.
+  },
+  filename: function (req, file, cb) {
+    cb(null, `${Date.now()}_${file.originalname}`);
+  },
+});
+
+const upload = multer({ storage: storage }).single("file");
+
+router.post("/image", (req, res) => {
+  upload(req, res, (err) => {
+    if (err) {
+      return res.json({ success: false, err });
+    }
+    return res.json({
+      success: true,
+      filePath: req.file.path,
+      fileName: req.file.filename,
+    });
+  });
+});
+
+module.exports = router;
+```
+
+다음과 같이 파일 시스템 fs 모듈을 사용하여 폴더가 존재하지 않았을 경우, 폴더를 자동으로 생성해서 문제를 해결할 수 있습니다.
+
+```js
+// boiler-plate-shop/server/routes/product.js
+const express = require("express");
+const router = express.Router();
+const multer = require("multer");
+const fs = require("fs");
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    const path = "./uploads";
+    fs.mkdirSync(path, { recursive: true }); // 폴더가 없을 경우 폴더를 생성해줍니다.
+    cb(null, path);
+  },
+  filename: function (req, file, cb) {
+    cb(null, `${Date.now()}_${file.originalname}`);
+  },
+});
+
+const upload = multer({ storage: storage }).single("file");
+
+router.post("/image", (req, res) => {
+  upload(req, res, (err) => {
+    if (err) {
+      return res.json({ success: false, err });
+    }
+    return res.json({
+      success: true,
+      filePath: req.file.path,
+      fileName: req.file.filename,
+    });
+  });
+});
+
+module.exports = router;
+```
+
+이 문제는 폴더가 존재하지 않았을 경우 에러가 발생하는 문제였는데
+폴더를 직접 생성할 수도 있지만, 일일이 폴더를 생성하는 작업이 비효율적이기 때문에 반복될 수 있는 이 작업을 자동화하여 생산성을 높이는 것이 좋다고 생각되었습니다.
