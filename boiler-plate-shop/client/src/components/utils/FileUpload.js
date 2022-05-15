@@ -3,7 +3,7 @@ import Dropzone from "react-dropzone";
 import { Icon } from "antd";
 import axios from "axios";
 
-function FileUpload() {
+function FileUpload(props) {
   const [Images, setImages] = useState([]);
 
   const dropHandler = (files) => {
@@ -17,6 +17,8 @@ function FileUpload() {
       if (response.data.success) {
         console.log("response.data.filePath: ", response.data.filePath);
         setImages([...Images, response.data.filePath]);
+        // UploadProductPage에서 submit 시, 이미지가 없으므로 부모 컴포넌트에 이미지 전달
+        props.refreshFunction([...Images, response.data.filePath]);
       } else {
         console.log(response);
         alert("파일을 저장하는데 실패했습니다.");
@@ -31,6 +33,7 @@ function FileUpload() {
     newImages.splice(currentIndex, 1);
 
     setImages(newImages);
+    props.refreshFunction(newImages);
   };
 
   return (
