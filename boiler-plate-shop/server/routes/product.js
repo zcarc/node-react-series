@@ -50,8 +50,14 @@ router.post("/", (req, res) => {
 
 // 모든 상품 정보 가져오기
 router.post("/products", (req, res) => {
+  // skip부터 limit까지 db에서 데이터를 가져올 수 있다.
+  let skip = req.body.skip ? parseInt(req.body.skip) : 0;
+  let limit = req.body.limit ? parseInt(req.body.limit) : 20;
+
   Product.find()
     .populate("writer") // 추가해주면 기존 writer의 오직 id 값만 가져오는 대신 writer의 모든 정보를 가져온다.
+    .skip(skip)
+    .limit(limit)
     .exec((err, productInfo) => {
       if (err) return res.status(400).json({ success: false, err });
       return res.status(200).json({ success: true, productInfo });
