@@ -11,6 +11,10 @@ function LandingPage() {
   const [Skip, setSkip] = useState(0);
   const [Limit, setLimit] = useState(8);
   const [PostSize, setPostSize] = useState(0);
+  const [Filters, setFilters] = useState({
+    continents: [],
+    price: [],
+  });
 
   useEffect(() => {
     const body = {
@@ -51,6 +55,25 @@ function LandingPage() {
     setSkip(skip);
   };
 
+  const showFilteredResults = (filters) => {
+    let body = {
+      skip: 0,
+      limit: Limit,
+      filters: filters,
+    };
+
+    getProducts(body);
+    setSkip(0);
+  };
+
+  const handleFilters = (filters, category) => {
+    const newFilters = { ...Filters };
+
+    newFilters[category] = filters;
+
+    showFilteredResults(newFilters);
+  };
+
   const renderCards = Products.map((product, index) => {
     return (
       <Col lg={6} md={8} xs={24} key={index}>
@@ -72,7 +95,11 @@ function LandingPage() {
       {/* Filter */}
 
       {/* CheckBox */}
-      <CheckBox list={continents} />
+      <CheckBox
+        list={continents}
+        // 여기서 매개변수 filters는 CheckBox에서 호출 시, 넘겨주는 인자에서 받아온다.
+        handleFilters={(filters) => handleFilters(filters, "continents")}
+      />
 
       {/* RadioBox */}
 

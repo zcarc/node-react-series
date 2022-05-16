@@ -54,7 +54,18 @@ router.post("/products", (req, res) => {
   let skip = req.body.skip ? parseInt(req.body.skip) : 0;
   let limit = req.body.limit ? parseInt(req.body.limit) : 20;
 
-  Product.find()
+  // 랜딩 페이지에서 필터링한 부분 찾기
+  const findArgs = {};
+
+  for (let key in req.body.filters) {
+    if (req.body.filters[key].length > 0) {
+      findArgs[key] = req.body.filters[key];
+    }
+  }
+
+  console.log("findArgs: ", findArgs);
+
+  Product.find(findArgs)
     .populate("writer") // 추가해주면 기존 writer의 오직 id 값만 가져오는 대신 writer의 모든 정보를 가져온다.
     .skip(skip)
     .limit(limit)
