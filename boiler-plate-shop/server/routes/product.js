@@ -50,7 +50,7 @@ router.post("/", (req, res) => {
 
 // 모든 상품 정보 가져오기
 router.post("/products", (req, res) => {
-  // skip부터 limit까지 db에서 데이터를 가져올 수 있다.
+  // skip 가져올 시작번호, limit 개수만큼 db에서 데이터를 가져올 수 있다.
   let skip = req.body.skip ? parseInt(req.body.skip) : 0;
   let limit = req.body.limit ? parseInt(req.body.limit) : 20;
 
