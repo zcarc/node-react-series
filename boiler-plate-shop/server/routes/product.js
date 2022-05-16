@@ -57,9 +57,23 @@ router.post("/products", (req, res) => {
   // 랜딩 페이지에서 필터링한 부분 찾기
   const findArgs = {};
 
+  console.log("req.body.filters: ", req.body.filters);
+
   for (let key in req.body.filters) {
     if (req.body.filters[key].length > 0) {
-      findArgs[key] = req.body.filters[key];
+      console.log("key: ", key);
+
+      if (key === "price") {
+        findArgs[key] = {
+          // MongoDB 에서 사용하는 문법
+          // $gte: 이것보다 크거나 같은 경우 (Greater than equal)
+          // $lte: 이것보다 작거나 같은 경우 (Less than equal)
+          $gte: req.body.filters[key][0],
+          $lte: req.body.filters[key][1],
+        };
+      } else {
+        findArgs[key] = req.body.filters[key];
+      }
     }
   }
 

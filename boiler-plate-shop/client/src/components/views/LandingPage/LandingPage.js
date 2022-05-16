@@ -69,12 +69,34 @@ function LandingPage() {
     setSkip(0);
   };
 
+  const handlePrice = (value) => {
+    const data = price;
+    let array = [];
+
+    // data는 배열이라서 for in 문을 사용하면 인덱스를 순회한다.
+    // 그래서 변수명을 key 대신에 i로 생성했다.
+    // 만약 data가 객체라면 for in 문은 객체의 key를 순회한다.
+    for (let i in data) {
+      if (data[i]._id === parseInt(value, 10)) {
+        array = data[i].array;
+      }
+    }
+
+    return array;
+  };
+
   const handleFilters = (filters, category) => {
     const newFilters = { ...Filters };
 
     newFilters[category] = filters;
 
+    if (category === "price") {
+      const priceValues = handlePrice(filters);
+      newFilters[category] = priceValues;
+    }
+
     showFilteredResults(newFilters);
+    setFilters(newFilters);
   };
 
   const renderCards = Products.map((product, index) => {
