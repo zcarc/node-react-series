@@ -4,7 +4,8 @@ import { Card, Icon, Col, Row } from "antd";
 import Meta from "antd/lib/card/Meta";
 import ImageSlider from "../../utils/ImageSlider";
 import CheckBox from "./Sections/CheckBox";
-import { continents } from "./Sections/Datas";
+import { continents, price } from "./Sections/Datas";
+import RadioBox from "./Sections/RadioBox";
 
 function LandingPage() {
   const [Products, setProducts] = useState([]);
@@ -62,6 +63,8 @@ function LandingPage() {
       filters: filters,
     };
 
+    console.log("body: ", body);
+
     getProducts(body);
     setSkip(0);
   };
@@ -93,15 +96,23 @@ function LandingPage() {
       </div>
 
       {/* Filter */}
-
-      {/* CheckBox */}
-      <CheckBox
-        list={continents}
-        // 여기서 매개변수 filters는 CheckBox에서 호출 시, 넘겨주는 인자에서 받아온다.
-        handleFilters={(filters) => handleFilters(filters, "continents")}
-      />
-
-      {/* RadioBox */}
+      <Row gutter={[16, 16]}>
+        {/* CheckBox */}
+        <Col lg={12} xs={24}>
+          <CheckBox
+            list={continents}
+            // 여기서 매개변수 filters는 CheckBox에서 호출 시, 넘겨주는 인자에서 받아온다.
+            handleFilters={(filters) => handleFilters(filters, "continents")}
+          />
+        </Col>
+        {/* RadioBox */}
+        <Col lg={12} xs={24}>
+          <RadioBox
+            list={price}
+            handleFilters={(filters) => handleFilters(filters, "price")}
+          />
+        </Col>
+      </Row>
 
       {/* Search */}
 
