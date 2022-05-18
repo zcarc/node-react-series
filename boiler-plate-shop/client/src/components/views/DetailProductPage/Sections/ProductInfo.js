@@ -1,8 +1,13 @@
 import React from "react";
 import { Button, Descriptions } from "antd";
+import { useDispatch } from "react-redux";
 
 function ProductInfo(props) {
-  const clickHandler = () => {};
+  const dispatch = useDispatch();
+
+  const clickHandler = () => {
+    // 필요한 정보를 Cart 필드에 넣어 준다.
+  };
 
   return (
     <div>
