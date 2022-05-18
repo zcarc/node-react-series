@@ -53,6 +53,7 @@ router.post("/products", (req, res) => {
   // skip 가져올 시작번호, limit 개수만큼 db에서 데이터를 가져올 수 있다.
   let skip = req.body.skip ? parseInt(req.body.skip) : 0;
   let limit = req.body.limit ? parseInt(req.body.limit) : 20;
+  let term = req.body.searchTerm;
 
   // 랜딩 페이지에서 필터링한 부분 찾기
   const findArgs = {};
@@ -79,16 +80,31 @@ router.post("/products", (req, res) => {
 
   console.log("findArgs: ", findArgs);
 
-  Product.find(findArgs)
-    .populate("writer") // 추가해주면 기존 writer의 오직 id 값만 가져오는 대신 writer의 모든 정보를 가져온다.
-    .skip(skip)
-    .limit(limit)
-    .exec((err, productInfo) => {
-      if (err) return res.status(400).json({ success: false, err });
-      return res
-        .status(200)
-        .json({ success: true, productInfo, postSize: productInfo.length });
-    });
+  // 랜딩페이지에서 검색하는 경우
+  if (term) {
+    Product.find(findArgs)
+      .find({ $text: { $search: term } })
+      .populate("writer") // 추가해주면 기존 writer의 오직 id 값만 가져오는 대신 writer의 모든 정보를 가져온다.
+      .skip(skip)
+      .limit(limit)
+      .exec((err, productInfo) => {
+        if (err) return res.status(400).json({ success: false, err });
+        return res
+          .status(200)
+          .json({ success: true, productInfo, postSize: productInfo.length });
+      });
+  } else {
+    Product.find(findArgs)
+      .populate("writer") // 추가해주면 기존 writer의 오직 id 값만 가져오는 대신 writer의 모든 정보를 가져온다.
+      .skip(skip)
+      .limit(limit)
+      .exec((err, productInfo) => {
+        if (err) return res.status(400).json({ success: false, err });
+        return res
+          .status(200)
+          .json({ success: true, productInfo, postSize: productInfo.length });
+      });
+  }
 });
 
 module.exports = router;
