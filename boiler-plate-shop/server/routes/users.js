@@ -69,11 +69,50 @@ router.get("/logout", auth, (req, res) => {
   );
 });
 
-router.get("/addToCart", auth, (req, res) => {
+router.post("/addToCart", auth, (req, res) => {
+  console.log("addToCart... req.user._id: ", req.user._id);
   // 먼저 DB에서 User Collection에 해당 유저의 정보를 가져오기
-  // 가져온 정보에서 카트에 넣으려고 하는 상품이 이미 있는지 확인
-  // 상품이 이미 있을 경우
-  // 상품이 아직 없을 경우
+  User.findOne({ _id: req.user._id }, (err, userInfo) => {
+    // 가져온 정보에서 카트에 넣으려고 하는 상품이 이미 있는지 확인
+
+    let duplicate = false;
+    userInfo.cart.forEach((item) => {
+      if (item.id === req.body.productId) {
+        duplicate = true;
+      }
+    });
+    // 상품이 이미 있을 경우
+    if (duplicate) {
+      User.findOneAndUpdate(
+        { _id: req.user._id, "cart.id": req.body.productId },
+        { $inc: { "cart.$.quantity": 1 } },
+        { new: true },
+        (err, userInfo) => {
+          if (err) return res.status(200).json({ success: false, err });
+          res.status(200).send(userInfo.cart);
+        }
+      );
+      // 상품이 아직 없을 경우
+    } else {
+      User.findOneAndUpdate(
+        { _id: req.user._id },
+        {
+          $push: {
+            cart: {
+              id: req.body.productId,
+              quantity: 1,
+              date: Date.now(),
+            },
+          },
+        },
+        { new: true },
+        (err, userInfo) => {
+          if (err) return res.status(400).json({ success: false, err });
+          res.status(200).send(userInfo.cart);
+        }
+      );
+    }
+  });
 });
 
 module.exports = router;
