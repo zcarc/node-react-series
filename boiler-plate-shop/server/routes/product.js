@@ -107,16 +107,25 @@ router.post("/products", (req, res) => {
   }
 });
 
-//id=123123123,324234234,324234234  type=array
 router.get("/products_by_id", (req, res) => {
   let type = req.query.type;
-  let productId = req.query.id;
+  let productIds = req.query.id;
+  console.log("productIds: ", productIds);
 
-  Product.find({ _id: productId })
+  if (type === "array") {
+    //id = 123123123, 324234234, 324234234 를 다음으로 바꿔주기
+    // productIds = ['123123123', '324234234', '324234234']
+    let ids = req.query.id.split(",");
+    productIds = ids.map((item) => item);
+
+    console.log("배열로 바꾼 productIds: ", productIds);
+  }
+
+  Product.find({ _id: { $in: productIds } })
     .populate("writer")
     .exec((err, product) => {
       if (err) return res.status(400).send(err);
-      return res.status(200).send({ success: true, product });
+      return res.status(200).json({ success: true, product });
     });
 });
 
