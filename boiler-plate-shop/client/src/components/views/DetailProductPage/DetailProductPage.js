@@ -12,7 +12,7 @@ function DetailProductPage(props) {
       .get(`/api/product/products_by_id?id=${productId}&type=single`)
       .then((response) => {
         console.log("response.data: ", response.data);
-        setProduct(response.data.product[0]);
+        setProduct(response.data[0]);
       })
       .catch((err) => alert(err));
   }, []);
