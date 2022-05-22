@@ -19,6 +19,11 @@
   padding: 19px 20px;
 }
 
+.menu__container {
+  display: flex;
+  margin-top: 10px;
+}
+
 .menu__container .ant-menu-item {
   padding: 0px 5px;
 }
@@ -37,11 +42,15 @@
 }
 
 .menu__container .menu_left {
-  float: left;
+  flex-grow: 1;
 }
 
-.menu__container .menu_rigth {
-  float: right;
+.menu__container .menu_right {
+  flex-grow: 1;
+}
+
+.menu__container .menu_right .ant-menu-horizontal {
+  justify-content: flex-end;
 }
 
 .menu__mobile-button {

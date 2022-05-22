@@ -19,25 +19,19 @@ function RightMenu(props) {
     });
   };
 
+  const not_auth = [
+    { label: <a href="/login">Signin</a>, key: "mail" },
+    { label: <a href="/register">Signup</a>, key: "app" },
+  ];
+
+  const auth = [
+    { label: <a onClick={logoutHandler}>Logout</a>, key: "logout" },
+  ];
+
   if (user.userData && !user.userData.isAuth) {
-    return (
-      <Menu mode={props.mode}>
-        <Menu.Item key="mail">
-          <a href="/login">Signin</a>
-        </Menu.Item>
-        <Menu.Item key="app">
-          <a href="/register">Signup</a>
-        </Menu.Item>
-      </Menu>
-    );
+    return <Menu mode={props.mode} items={not_auth} />;
   } else {
-    return (
-      <Menu mode={props.mode}>
-        <Menu.Item key="logout">
-          <a onClick={logoutHandler}>Logout</a>
-        </Menu.Item>
-      </Menu>
-    );
+    return <Menu mode={props.mode} items={auth} />;
   }
 }
 
