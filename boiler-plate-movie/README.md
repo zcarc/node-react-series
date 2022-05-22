@@ -23,8 +23,8 @@ module.exports = {
 
 영화 정보를 받아오기 위한 API key가 필요합니다.
 
-themoviedb에 로그인을 한 뒤
-[https://www.themoviedb.org/settings/api](https://www.themoviedb.org/settings/api) 에서 API Key를 생성해줍니다.
+[themoviedb](https://www.themoviedb.org/)에 로그인을 한 뒤
+[https://www.themoviedb.org/settings/api](https://www.themoviedb.org/settings/api)에서 API Key를 생성해줍니다.
 
 ```js
 module.exports = {
