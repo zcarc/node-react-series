@@ -338,6 +338,53 @@ export default RightMenu;
 
 <br />
 
+### antd Menu가 Submenu로 변경되는 문제
+
+<br />
+
+![antd-menu_ui_1](./troubleshooting/boiler-plate-movie/antd-menu_ui_1.png)
+
+앞서 문제인 버전에 따른 문법 에러를 해결했음에도 Menu의 mode를 horizontal로 설정한 2개의 컴포넌트를 같은 라인에 렌더링 했을 경우 Submenu로 변경되는 문제가 있었습니다.
+
+![antd-menu_ui_2](./troubleshooting/boiler-plate-movie/antd-menu_ui_2.png)
+
+Menu의 display 속성은 기본값이 flex이므로 flex-grow를 증가해서 남은 공간을 채워서 원래 Menu로 변경시켜서 문제를 해결했습니다.
+
+해결 전 코드
+
+```css
+/* boiler-plate-movie/client/src/components/views/NavBar/Sections/Navbar.css */
+.menu__container .menu_left {
+  float: left;
+}
+
+.menu__container .menu_rigth {
+  float: right;
+}
+```
+
+해결 후 코드
+
+```css
+/* boiler-plate-movie/client/src/components/views/NavBar/Sections/Navbar.css */
+.menu__container {
+  display: flex;
+  margin-top: 10px;
+}
+
+.menu__container .menu_left {
+  flex-grow: 1;
+}
+
+.menu__container .menu_right {
+  flex-grow: 1;
+}
+
+.menu__container .menu_right .ant-menu-horizontal {
+  justify-content: flex-end;
+}
+```
+
 ### 무비 앱에서 Load More 버튼으로 영화 목록을 추가로 가져오는 작업을 하던 중 에러 발생
 
 ![shorthand-properties_1](./troubleshooting/boiler-plate-movie/shorthand-properties_error_1.png)
