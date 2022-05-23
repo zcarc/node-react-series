@@ -203,7 +203,7 @@ v5에서는 Route 컴포넌트에서 React 컴포넌트를 render할 때, implic
 
 ## Troubleshooting - Movie
 
-### 상단의 메뉴를 antd의 Menu 컴포넌트를 사용하고 있었는데 기존의 예전 버전과 새로 설치한 최신 버전의 문법이 상이해서 에러 발생
+### antd의 Menu 컴포넌트가 예전 버전과 최근 버전의 문법이 상이해서 에러 발생
 
 ![antd-menu_error_1](./troubleshooting/boiler-plate-movie/antd-menu_error_1.png)
 
@@ -211,7 +211,7 @@ v5에서는 Route 컴포넌트에서 React 컴포넌트를 render할 때, implic
 
 ![antd-menu_error_2](./troubleshooting/boiler-plate-movie/antd-menu_error_2.png)
 
-[antd 공식 홈페이지](https://ant.design/components/menu/)에서 밝히고 있듯이, 5.0 버전에서는 4.20.0 이전에 Menu 컴포넌트를 사용했던 방법이 제거될 것이고, 4.20.0 이상부터는 코드를 더 간결하게 작성하고 더 간단한 사용법을 제공하므로 4.20.0 버전 기준으로 버전에 따른 문법 사용을 권장하는 것을 확인할 수 있습니다.
+[antd 공식 홈페이지](https://ant.design/components/menu/)에서 밝히고 있듯이, 5.0 버전에서는 4.20.0 이전에 Menu 컴포넌트를 사용했던 방법이 제거될 것이고, 4.20.0 이상부터는 코드를 더 간결하게 작성하고 더 간단한 사용법을 제공하므로 4.20.0 버전 기준으로 버전에 따른 문법 사용을 권장하는 것을 확인할 수 있었습니다.
 
 해결 전 코드
 
@@ -334,7 +334,7 @@ function RightMenu(props) {
 export default RightMenu;
 ```
 
-버전에 따른 문법의 변경으로 이전보다 코드가 더 간결해졌고 Menu item을 children으로 합성하는 것 대신 prop을 사용하는 것이 더 간단한 방법으로 느껴졌습니다.
+버전에 따른 문법의 변경으로 Menu item을 children으로 합성하는 것 대신 prop을 사용하여 코드가 더 간결해졌습니다.
 
 <br />
 
