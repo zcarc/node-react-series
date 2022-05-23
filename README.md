@@ -336,8 +336,6 @@ export default RightMenu;
 
 버전에 따른 문법의 변경으로 Menu item을 children으로 합성하는 것 대신 prop을 사용하여 코드가 더 간결해졌습니다.
 
-<br />
-
 ### antd Menu가 Submenu로 변경되는 문제
 
 <br />
