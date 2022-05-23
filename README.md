@@ -24,6 +24,7 @@ RandigPage.js 컴포넌트에서 useEffect() Hook을 사용해서 요청에 대�
 다음 코드는 GET 요청에 대한 응답이 두 번 렌더링 되는 코드입니다.
 
 ```js
+// boiler-plate/client/src/components/views/LandingPage/LandingPage.js
 import React, { useEffect } from "react";
 import axios from "axios";
 
@@ -58,7 +59,7 @@ StrictMode는 개발모드에서만 적용되고 프로덕션 모드에서만 �
 create-react-app으로 프로젝트를 생성하면 다음과 같이 StrictMode가 활성화 되어있습니다.
 
 ```js
-// src/index.js
+// boiler-plate/client/src/index.js
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
@@ -81,6 +82,8 @@ reportWebVitals();
 StrictMode를 비활성화하려고 한다면 App을 감싸고 있는 React.StrictMode를 제거 또는 주석처리를 해야합니다. <br />
 이 문제는 작성한 코드의 의도와는 다르게 두 번 호출 되어 찾아보고 이해하는 과정에서 시간 소요가 생각보다 길어졌던 문제였습니다.
 
+<br />
+
 ### React Router의 Props를 받아오지 못하는 문제
 
 LoginPage 컴포넌트에서 로그인에 성공한 후에 랜딩 페이지로 이동하려고 컴포넌트에서 props를 받아왔으나 아무런 값을 받아오지 못하는 문제가 발생했습니다.
@@ -98,9 +101,10 @@ v5의 route props의 전달 방식은 React Router의 Router 컴포넌트를 사
 
 이 문제는 useNavigate hook을 사용하면 해결할 수 있습니다.
 
-변경 전
+해결 전 코드
 
 ```js
+// boiler-plate/client/src/components/views/LoginPage/LoginPage.js
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../../_actions/user_actions";
@@ -144,9 +148,10 @@ function LoginPage(props) {
 export default LoginPage;
 ```
 
-변경 후
+해결 후 코드
 
 ```js
+// boiler-plate/client/src/components/views/LoginPage/LoginPage.js
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -190,16 +195,15 @@ function LoginPage() {
 }
 
 export default LoginPage;
-
-
-
 ```
 
 v5에서는 Route 컴포넌트에서 React 컴포넌트를 render할 때, implicit으로 props를 전달했었는데 v6에서는 Hook을 사용하여 explicit으로 props 전달하는 것을 인지할 수 있어서 더 나은 방법이라고 생각되었습니다.
 
+<br />
+
 ## Troubleshooting - Movie
 
-상단의 메뉴를 antd의 Menu 컴포넌트를 사용하고 있었는데 기존의 예전 버전과 새로 설치한 최신 버전의 문법이 달라서 에러가 발생했습니다.
+### 상단의 메뉴를 antd의 Menu 컴포넌트를 사용하고 있었는데 기존의 예전 버전과 새로 설치한 최신 버전의 문법이 상이해서 에러 발생
 
 ![antd-menu_error_1](./troubleshooting/boiler-plate-movie/antd-menu_error_1.png)
 
@@ -209,10 +213,10 @@ v5에서는 Route 컴포넌트에서 React 컴포넌트를 render할 때, implic
 
 [antd 공식 홈페이지](https://ant.design/components/menu/)에서 밝히고 있듯이, 5.0 버전에서는 4.20.0 이전에 Menu 컴포넌트를 사용했던 방법이 제거될 것이고, 4.20.0 이상부터는 코드를 더 간결하게 작성하고 더 간단한 사용법을 제공하므로 4.20.0 버전 기준으로 버전에 따른 문법 사용을 권장하는 것을 확인할 수 있습니다.
 
-변경 전 코드
+해결 전 코드
 
 ```js
-// client/src/components/views/NavBar/Sections/LeftMenu.js
+// boiler-plate-movie/client/src/components/views/NavBar/Sections/LeftMenu.js
 import React from "react";
 import { Menu } from "antd";
 
@@ -233,7 +237,7 @@ export default LeftMenu;
 ```
 
 ```js
-// client/src/components/views/NavBar/Sections/RightMenu.js
+// boiler-plate-movie/client/src/components/views/NavBar/Sections/RightMenu.js
 import React from "react";
 import { Menu } from "antd";
 import axios from "axios";
@@ -269,10 +273,10 @@ function RightMenu(props) {
 export default RightMenu;
 ```
 
-변경 후 코드
+해결 후 코드
 
 ```js
-// client/src/components/views/NavBar/Sections/LeftMenu.js
+// boiler-plate-movie/client/src/components/views/NavBar/Sections/LeftMenu.js
 import React from "react";
 import { Menu } from "antd";
 
@@ -289,7 +293,7 @@ export default LeftMenu;
 ```
 
 ```js
-// client/src/components/views/NavBar/Sections/RightMenu.js
+// boiler-plate-movie/client/src/components/views/NavBar/Sections/RightMenu.js
 import React from "react";
 import { Menu } from "antd";
 import axios from "axios";
@@ -332,7 +336,9 @@ export default RightMenu;
 
 버전에 따른 문법의 변경으로 이전보다 코드가 더 간결해졌고 Menu item을 children으로 합성하는 것 대신 prop을 사용하는 것이 더 간단한 방법으로 느껴졌습니다.
 
-무비 앱에서 Load More 버튼으로 영화들을 추가로 가져오는 작업을 하던 중에 에러가 발생했습니다.
+<br />
+
+### 무비 앱에서 Load More 버튼으로 영화 목록을 추가로 가져오는 작업을 하던 중 에러 발생
 
 ![shorthand-properties_1](./troubleshooting/boiler-plate-movie/shorthand-properties_error_1.png)
 
@@ -349,7 +355,7 @@ MDN web docs의 [Shorthand properties](https://developer.mozilla.org/en-US/docs/
 다음은 에러가 발생한 코드입니다.
 
 ```js
-// components/views/LandingPage/Sections/MainImage.js
+// boiler-plate-movie/client/src/components/views/LandingPage/Sections/MainImage.js
 <div
   style={{
     position: "relative",
@@ -369,7 +375,7 @@ MDN web docs의 [Shorthand properties](https://developer.mozilla.org/en-US/docs/
 이 코드를 다음과 같이 수정하여 에러를 해결할 수 있었습니다.
 
 ```js
-// components/views/LandingPage/Sections/MainImage.js
+// boiler-plate-movie/client/src/components/views/LandingPage/Sections/MainImage.js
 <div
   style={{
     position: "relative",
@@ -390,7 +396,8 @@ MDN web docs의 [Shorthand properties](https://developer.mozilla.org/en-US/docs/
 
 ## Troubleshooting - Shop
 
-여행 상품 업로드 탭에서 드랍존에 파일을 올릴 때, multer를 사용해서 서버에 파일을 업로드 중에 에러가 발생했습니다. <br />
+### 여행 상품 업로드 탭에서 드랍존에 파일을 올릴 때, multer를 사용해서 서버에 파일을 업로드 중 에러 발생
+
 문제는 폴더가 존재하지 않을 경우 파일을 업로드 했을 때의 문제였습니다.
 
 ![multer-file-upload-error](./troubleshooting/boiler-plate-shop/multer-file-upload-error.png)
