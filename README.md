@@ -387,7 +387,7 @@ Menu의 display 속성은 기본값이 flex이므로 flex-grow를 증가해서 �
 
 ![shorthand-properties_1](./troubleshooting/boiler-plate-movie/shorthand-properties_error_1.png)
 
-에러 내용은 "충돌하는 속성이 설정되었을 때, 리렌더를 하는 중 스타일 속성을 바꾸는 과정 중에 스타일을 바꾸는 것에 대한 버그를 일으킬 수 있습니다.
+에러 내용은 "충돌하는 속성이 설정되었을 때, 리렌더를 하는 중 스타일 속성을 바꾼다면 스타일 버그를 일으킬 수 있습니다.
 이를 해결 하기 위해서는, 'shorthand'(기존의 문장 소리, 단어 구를 약어 또는 기호로 대체하여 쓰는 방법) 및 'non-shorthand'를 혼합하지 않아야 합니다.
 대신에 분리된 값들로 바꾸면 됩니다."
 
