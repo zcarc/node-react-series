@@ -1,9 +1,5 @@
 # 쇼핑몰 애플리케이션
 
-## 소개 영상
-
-제공된 소개 영상에서 [애플리케이션 시연](https://www.inflearn.com/course/%EB%94%B0%EB%9D%BC%ED%95%98%EB%A9%B0-%EB%B0%B0%EC%9A%B0%EB%8A%94-%EB%85%B8%EB%93%9C-%EB%A6%AC%EC%95%A1%ED%8A%B8-%EC%87%BC%ED%95%91%EB%AA%B0/lecture/41242?tab=curriculum&volume=1.00)을 미리 확인해볼 수 있습니다.
-
 ## 필요한 설정
 
 ### MongoDB Connection URI

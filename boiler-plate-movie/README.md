@@ -1,9 +1,5 @@
 # 영화 애플리케이션
 
-## 소개 영상
-
-제공된 소개 영상에서 [애플리케이션 시연](https://youtu.be/e8xMcMXqYGw)을 미리 확인해볼 수 있습니다.
-
 ## 필요한 설정
 
 ### MongoDB Connection URI
