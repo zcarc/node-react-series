@@ -346,7 +346,7 @@ export default RightMenu;
 
 ![antd-menu_ui_2](./troubleshooting/boiler-plate-movie/antd-menu_ui_2.png)
 
-Menu의 display 속성은 기본값이 flex이므로 flex-grow를 증가해서 남은 공간을 채워서 원래 Menu로 변경시켜서 문제를 해결했습니다.
+flex items의 flex-grow를 모두 같은 값으로 설정하면 container 내부에서 동일한 공간을 할당합니다.
 
 해결 전 코드
 
